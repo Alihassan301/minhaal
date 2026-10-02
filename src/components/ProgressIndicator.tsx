@@ -34,7 +34,7 @@ export function ProgressIndicator() {
         initial={{ opacity: 0, x: 12 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, ease: EASE }}
-        className="fixed right-6 top-1/2 z-50 hidden -translate-y-1/2 md:block">
+        className="fixed right-[max(1.5rem,env(safe-area-inset-right))] top-1/2 z-50 hidden -translate-y-1/2 md:block">
         
         <ol className="flex flex-col items-end gap-4">
           {chapters.map((chapter, i) => {
@@ -82,7 +82,7 @@ export function ProgressIndicator() {
         </ol>
       </motion.nav>
 
-      <div className="fixed bottom-5 right-5 z-50 md:hidden" aria-live="polite">
+      <div className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-50 md:hidden" aria-live="polite">
         <div className="flex items-center gap-2 rounded-full border border-ivory/15 bg-plum/60 px-4 py-2.5 backdrop-blur-md">
           <span className="font-display text-sm tabular-nums text-gold">{String(active + 1).padStart(2, '0')}</span>
           <span className="h-3 w-px bg-ivory/20" aria-hidden="true" />

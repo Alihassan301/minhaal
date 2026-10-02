@@ -43,7 +43,7 @@ export function Hero({ ready }: {ready: boolean;}) {
       id="intro"
       data-chapter="0"
       aria-label="Introduction"
-      className="relative flex h-[100svh] min-h-[640px] w-full items-center justify-center overflow-hidden">
+      className="relative flex h-[100svh] min-h-[540px] w-full items-center justify-center overflow-hidden sm:min-h-[640px]">
       
       <div className="hero-bg absolute inset-[-4%] will-change-transform">
         <img src={hero.image} alt="" className="h-full w-full object-cover opacity-80" />
@@ -61,7 +61,7 @@ export function Hero({ ready }: {ready: boolean;}) {
       <PetalDrift count={14} />
 
       <div className="hero-content relative z-10 flex flex-col items-center px-6 text-center">
-        <h1 className="hero-name font-display text-[clamp(4.75rem,19vw,17rem)] font-light leading-[0.9] tracking-[0.04em] text-ivory">
+        <h1 className="hero-name font-display text-[clamp(3.5rem,19vw,17rem)] font-light leading-[0.9] tracking-[0.04em] text-ivory">
           {name.toUpperCase()}
         </h1>
         <div className="hero-ornament mt-6 flex items-center gap-3" aria-hidden="true">
@@ -75,7 +75,7 @@ export function Hero({ ready }: {ready: boolean;}) {
           type="button"
           onClick={() => scrollToTarget('#words')}
           data-cursor="Open"
-          className="hero-cta group mt-12 flex items-center gap-3 rounded-full border border-gold/50 px-7 py-3.5 text-sm font-medium tracking-wide text-ivory transition-colors duration-200 hover:border-gold hover:bg-gold hover:text-plum focus:outline-none focus-visible:ring-2 focus-visible:ring-gold">
+          className="hero-cta group mt-8 flex items-center gap-3 rounded-full border border-gold/50 px-7 py-3.5 text-sm font-medium tracking-wide text-ivory transition-colors duration-200 hover:border-gold hover:bg-gold hover:text-plum focus:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:mt-12">
           
           {hero.cta}
           <ArrowDownIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" aria-hidden="true" />

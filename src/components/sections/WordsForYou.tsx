@@ -37,7 +37,7 @@ export function WordsForYou() {
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-12">
         <div className="md:col-span-3">
           <div className="words-heading md:sticky md:top-[22vh]">
-            <h2 id="words-title" className="font-script text-6xl leading-none text-gold md:text-7xl">
+            <h2 id="words-title" className="font-script text-5xl leading-none text-gold sm:text-6xl md:text-7xl">
               {words.heading}
             </h2>
             <p className="mt-5 max-w-[14rem] font-display text-lg italic text-ivory/50">{words.note}</p>

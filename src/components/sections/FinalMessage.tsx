@@ -23,38 +23,45 @@ export function FinalMessage() {
 
   useGSAP(
     () => {
-      const mobile = window.matchMedia('(max-width: 767px)').matches;
-      const lines = gsap.utils.toArray<HTMLElement>('.fm-line');
-      const splits = lines.map((line) => SplitText.create(line, { type: 'chars,words' }));
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root.current,
-          start: 'top top',
-          end: mobile ? '+=320%' : '+=440%',
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1
-        }
+      const mm = gsap.matchMedia();
+
+      mm.add({ isPhone: '(max-width: 767px)', isWide: '(min-width: 768px)' }, (context) => {
+        const { isPhone } = context.conditions as { isPhone: boolean; isWide: boolean };
+        const lines = gsap.utils.toArray<HTMLElement>('.fm-line');
+        const splits = lines.map((line) => SplitText.create(line, { type: 'chars,words' }));
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: root.current,
+            start: 'top top',
+            end: isPhone ? '+=320%' : '+=440%',
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
+          }
+        });
+
+        gsap.utils.toArray<HTMLElement>('.fm-flower').forEach((f, i) => addBloom(tl, f, i * 0.15, 1.4));
+        tl.from('.fm-leaf', { opacity: 0, scale: 0.4, stagger: 0.1, duration: 0.8, ease: 'gift' }, 0.2);
+        tl.fromTo('.fm-glow', { scale: 0.4, opacity: 0 }, { scale: 1.4, opacity: 1, duration: 6.5, ease: 'none' }, 0);
+        tl.to('.fm-flower svg', { rotation: (i) => i % 2 ? 30 : -30, duration: 7, ease: 'none' }, 0);
+
+        splits.forEach((split, i) => {
+          const at = 0.6 + i * 1.6;
+          tl.fromTo(
+            split.chars,
+            { opacity: 0, y: 24, filter: 'blur(10px)' },
+            { opacity: 1, y: 0, filter: 'blur(0px)', stagger: 0.035, duration: 0.6, ease: 'gift' },
+            at
+          );
+          if (i < splits.length - 1) {
+            tl.to(lines[i], { opacity: 0, y: -30, filter: 'blur(8px)', duration: 0.5, ease: 'none' }, at + 1.15);
+          }
+        });
+        tl.to({}, { duration: 0.8 });
       });
 
-      gsap.utils.toArray<HTMLElement>('.fm-flower').forEach((f, i) => addBloom(tl, f, i * 0.15, 1.4));
-      tl.from('.fm-leaf', { opacity: 0, scale: 0.4, stagger: 0.1, duration: 0.8, ease: 'gift' }, 0.2);
-      tl.fromTo('.fm-glow', { scale: 0.4, opacity: 0 }, { scale: 1.4, opacity: 1, duration: 6.5, ease: 'none' }, 0);
-      tl.to('.fm-flower svg', { rotation: (i) => i % 2 ? 30 : -30, duration: 7, ease: 'none' }, 0);
-
-      splits.forEach((split, i) => {
-        const at = 0.6 + i * 1.6;
-        tl.fromTo(
-          split.chars,
-          { opacity: 0, y: 24, filter: 'blur(10px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', stagger: 0.035, duration: 0.6, ease: 'gift' },
-          at
-        );
-        if (i < splits.length - 1) {
-          tl.to(lines[i], { opacity: 0, y: -30, filter: 'blur(8px)', duration: 0.5, ease: 'none' }, at + 1.15);
-        }
-      });
-      tl.to({}, { duration: 0.8 });
+      return () => mm.revert();
     },
     { scope: root }
   );
@@ -66,7 +73,7 @@ export function FinalMessage() {
       ref={root}
       data-chapter="5"
       aria-label="A final message"
-      className="relative flex h-screen min-h-[600px] w-full items-center justify-center overflow-hidden">
+      className="relative flex h-[100svh] min-h-[480px] w-full items-center justify-center overflow-hidden sm:min-h-[540px] md:min-h-[600px]">
       
       <div
         aria-hidden="true"
@@ -88,12 +95,12 @@ export function FinalMessage() {
         <Leaf className="sway w-full" style={{ animationDelay: '-3s' }} />
       </div>
 
-      <div className="relative z-10 grid w-full place-items-center px-6 text-center">
+      <div className="relative z-10 grid w-full place-items-center px-4 text-center sm:px-6">
         {finalMessage.lines.map((line, i) =>
         <p
           key={line}
           className={`fm-line font-display font-light leading-[1.05] text-ivory [grid-area:1/1] ${
-          i === last ? 'text-[clamp(3rem,9vw,8rem)]' : 'text-[clamp(2.5rem,7vw,6.5rem)] italic'}`
+          i === last ? 'text-[clamp(2.25rem,9vw,8rem)]' : 'text-[clamp(1.9rem,7vw,6.5rem)] italic'}`
           }>
           
             <RichLine text={line} nameClassName="font-script text-[1.2em] text-gold" />

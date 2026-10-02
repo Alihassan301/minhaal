@@ -28,10 +28,15 @@ export function ParticleField({ density = 1, className = '', color = '216,184,12
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const mobile = window.matchMedia('(max-width: 767px)').matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // A lower backing-store resolution on phones buys back a lot of fill rate,
+    // and the dust is soft enough that nobody can tell.
+    const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5);
+    const halo = !mobile;
     let w = 0;
     let h = 0;
     let raf = 0;
+    let inView = false;
+    let hidden = document.visibilityState === 'hidden';
     let particles: Particle[] = [];
 
     const seed = () => {
@@ -55,7 +60,7 @@ export function ParticleField({ density = 1, className = '', color = '216,184,12
         ctx.fillStyle = `rgba(${color},${Math.max(alpha, 0.05)})`;
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
-        if (p.r > 1.4) {
+        if (halo && p.r > 1.4) {
           ctx.beginPath();
           ctx.fillStyle = `rgba(${color},${Math.max(alpha, 0.05) * 0.12})`;
           ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
@@ -80,10 +85,18 @@ export function ParticleField({ density = 1, className = '', color = '216,184,12
       raf = requestAnimationFrame(step);
     };
 
+    /** Start/stop the loop only when this canvas is both visible and on screen. */
+    const sync = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      if (inView && !hidden && !reduce) raf = requestAnimationFrame(step);
+    };
+
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       w = rect.width;
       h = rect.height;
+      if (!w || !h) return;
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -93,16 +106,28 @@ export function ParticleField({ density = 1, className = '', color = '216,184,12
 
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
-    const io = new IntersectionObserver(([entry]) => {
-      cancelAnimationFrame(raf);
-      if (entry.isIntersecting && !reduce) raf = requestAnimationFrame(step);
-    });
+    // rootMargin starts the loop slightly before the canvas scrolls in, so the
+    // dust is already moving instead of snapping to life on screen.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        sync();
+      },
+      { rootMargin: '160px 0px' }
+    );
     io.observe(canvas);
+
+    const onVisibility = () => {
+      hidden = document.visibilityState === 'hidden';
+      sync();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [density, color]);
 

@@ -8,10 +8,10 @@ import { Envelope } from '../Envelope';
 import type { FlowerKind } from '../../types/gift';
 
 const CARD_FLOWERS: {kind: FlowerKind;className: string;}[] = [
-{ kind: 'rose', className: '-left-10 -top-10 w-24 md:-left-14 md:-top-14 md:w-32' },
-{ kind: 'blossom', className: '-right-8 -top-8 w-16 md:-right-10 md:-top-10 md:w-20' },
-{ kind: 'sunflower', className: '-bottom-10 -right-10 w-24 md:-bottom-14 md:-right-14 md:w-32' },
-{ kind: 'peony', className: '-bottom-8 -left-8 w-16 md:-bottom-10 md:-left-10 md:w-24' }];
+{ kind: 'rose', className: '-left-6 -top-6 w-[4.5rem] md:-left-14 md:-top-14 md:w-32' },
+{ kind: 'blossom', className: '-right-5 -top-5 w-12 md:-right-10 md:-top-10 md:w-20' },
+{ kind: 'sunflower', className: '-bottom-6 -right-6 w-[4.5rem] md:-bottom-14 md:-right-14 md:w-32' },
+{ kind: 'peony', className: '-bottom-5 -left-5 w-12 md:-bottom-10 md:-left-10 md:w-24' }];
 
 
 export function Surprise() {
@@ -77,16 +77,16 @@ export function Surprise() {
       id="surprise"
       data-chapter="4"
       aria-labelledby="sp-title"
-      className="relative flex min-h-screen flex-col items-center justify-center px-6 py-[18vh]">
+      className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 py-[18vh]">
       
       <div className="sp-intro text-center">
         <h2 id="sp-title" className="font-display text-[clamp(2.5rem,6vw,5rem)] font-light leading-none text-ivory">
           {surprise.heading}
         </h2>
-        <p className="mt-3 font-script text-5xl text-gold md:text-6xl">{surprise.prompt}</p>
+        <p className="mt-3 font-script text-4xl text-gold sm:text-5xl md:text-6xl">{surprise.prompt}</p>
       </div>
 
-      <div className="sp-stage relative mt-14 grid min-h-[480px] w-full max-w-2xl place-items-center md:min-h-[520px]">
+      <div className="sp-stage relative mt-8 grid min-h-[380px] w-full max-w-2xl place-items-center sm:mt-10 sm:min-h-[440px] md:mt-14 md:min-h-[520px]">
         <div ref={burstRef} className="pointer-events-none absolute inset-0 z-20" aria-hidden="true" />
 
         <div className="sp-envelope-wrap flex flex-col items-center [grid-area:1/1]">
@@ -102,7 +102,7 @@ export function Surprise() {
               <Envelope />
             </button>
           </div>
-          <p className="mt-8 text-sm text-ivory/50">{surprise.hint}</p>
+          <p className="mt-8 text-sm text-ivory/50 sm:mt-10">{surprise.hint}</p>
         </div>
 
         <div
@@ -116,12 +116,12 @@ export function Surprise() {
               <Flower kind={f.kind} className="h-auto w-full" />
             </div>
           )}
-          <div className="relative rounded-sm bg-ivory px-8 py-14 text-center text-plum shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)] md:px-16 md:py-20">
+          <div className="relative rounded-sm bg-ivory px-6 py-10 text-center text-plum shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)] sm:px-8 sm:py-14 md:px-16 md:py-20">
             <p className="sp-salutation font-display text-lg italic text-burgundy/70">{surprise.salutation}</p>
             <p className="sp-message mt-6 font-display text-[clamp(1.9rem,4vw,2.75rem)] font-normal italic leading-[1.15] text-plum">
               {surprise.message}
             </p>
-            <div className="mt-10 flex flex-col items-center">
+            <div className="mt-8 flex flex-col items-center sm:mt-10">
               <p className="sp-signature px-4 font-script text-5xl text-burgundy md:text-6xl">{surprise.signature}</p>
               <span className="sp-sign-line mt-2 block h-px w-40 bg-gold" aria-hidden="true" />
             </div>

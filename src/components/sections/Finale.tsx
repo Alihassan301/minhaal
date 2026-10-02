@@ -40,7 +40,7 @@ export function Finale() {
       id="finale"
       data-chapter="5"
       aria-labelledby="fin-title"
-      className="relative flex h-[100svh] min-h-[680px] w-full flex-col items-center justify-center overflow-hidden px-6">
+      className="relative flex h-[100svh] min-h-[520px] w-full flex-col items-center justify-center overflow-hidden px-4 sm:min-h-[600px] sm:px-6 md:min-h-[680px]">
       
       <ParticleField density={1.1} />
       <PetalDrift count={16} />
@@ -60,10 +60,10 @@ export function Finale() {
       </div>
 
       <div className="relative z-10 text-center">
-        <h2 id="fin-title" className="fin-name font-display text-[clamp(5rem,22vw,20rem)] font-light leading-[0.88] tracking-[0.03em] text-ivory">
+        <h2 id="fin-title" className="fin-name font-display text-[clamp(3rem,22vw,20rem)] font-light leading-[0.88] tracking-[0.03em] text-ivory">
           {name.toUpperCase()}
         </h2>
-        <div className="fin-lines mt-8 space-y-3">
+        <div className="fin-lines mt-6 space-y-3 sm:mt-8">
           <p className="fin-line font-display text-[clamp(1.4rem,2.8vw,2.25rem)] italic text-ivory/90">{finale.line}</p>
           <p className="fin-line font-script text-[clamp(2.4rem,5vw,3.75rem)] text-gold">
             <RichLine text={finale.closing} />
@@ -75,7 +75,7 @@ export function Finale() {
         type="button"
         onClick={() => scrollToTarget(0)}
         data-cursor="View"
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-sm text-ivory/55 transition-colors duration-200 hover:text-ivory focus:outline-none focus-visible:ring-1 focus-visible:ring-gold">
+        className="absolute bottom-[max(2rem,env(safe-area-inset-bottom))] left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-sm text-ivory/55 transition-colors duration-200 hover:text-ivory focus:outline-none focus-visible:ring-1 focus-visible:ring-gold">
         
         <ArrowUpIcon className="h-4 w-4" aria-hidden="true" />
         {finale.again}

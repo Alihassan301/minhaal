@@ -50,8 +50,8 @@ export function FlowerGarden() {
   );
 
   return (
-    <section ref={root} data-chapter="1" aria-label="A garden of flowers" className="relative h-[200vh] overflow-clip">
-      <div className="sticky top-0 h-screen w-full">
+    <section ref={root} data-chapter="1" aria-label="A garden of flowers" className="relative h-[200svh] overflow-clip">
+      <div className="sticky top-0 h-[100svh] w-full">
         <ParticleField density={0.9} />
         <PetalDrift count={10} />
 

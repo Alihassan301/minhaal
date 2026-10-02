@@ -17,7 +17,7 @@ export function MusicToggle({ visible }: {visible: boolean;}) {
       animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
       whileTap={{ scale: 0.96 }}
-      className={`fixed bottom-5 left-5 z-50 flex items-center gap-3 rounded-full border px-4 py-2.5 backdrop-blur-md transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold md:bottom-7 md:left-7 ${
+      className={`fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-[max(1.25rem,env(safe-area-inset-left))] z-50 flex items-center gap-3 rounded-full border px-4 py-2.5 backdrop-blur-md transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold md:bottom-[max(1.75rem,env(safe-area-inset-bottom))] md:left-[max(1.75rem,env(safe-area-inset-left))] ${
       playing ? 'border-gold/60 bg-gold/15 text-ivory' : 'border-ivory/15 bg-plum/50 text-ivory/80 hover:border-gold/40'} ${
       visible ? '' : 'pointer-events-none'}`}>
       

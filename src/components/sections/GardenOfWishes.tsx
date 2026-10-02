@@ -15,33 +15,43 @@ export function GardenOfWishes() {
 
   useGSAP(
     () => {
-      const mobile = window.matchMedia('(max-width: 767px)').matches;
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root.current,
-          start: 'top top',
-          end: mobile ? '+=240%' : '+=340%',
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1
-        }
+      // The pin distance differs between phone and desktop. Rebuilding through
+      // matchMedia (instead of reading the breakpoint once) keeps it correct
+      // when the window is resized or a tablet is rotated.
+      const mm = gsap.matchMedia();
+
+      mm.add({ isPhone: '(max-width: 767px)', isWide: '(min-width: 768px)' }, (context) => {
+        const { isPhone } = context.conditions as { isPhone: boolean; isWide: boolean };
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: root.current,
+            start: 'top top',
+            end: isPhone ? '+=240%' : '+=340%',
+            pin: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
+          }
+        });
+
+        tl.from('.gow-head > *', { opacity: 0, y: 20, filter: 'blur(8px)', stagger: 0.1, duration: 0.5, ease: 'gift' }, 0).from(
+          '.gow-ground',
+          { scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: 'none' },
+          0.1
+        );
+
+        gsap.utils.toArray<HTMLElement>('.gow-col').forEach((col, i) => {
+          const at = 0.5 + i * 0.85;
+          tl.fromTo(col.querySelector('.gow-stem'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.7, ease: 'none' }, at).
+          from(col.querySelectorAll('.gow-leaf'), { scale: 0.1, opacity: 0, transformOrigin: '50% 100%', stagger: 0.12, duration: 0.5, ease: 'gift' }, at + 0.3).
+          from(col.querySelector('.gow-num'), { opacity: 0, duration: 0.3 }, at + 0.2);
+          addBloom(tl, col.querySelector('.gow-flower'), at + 0.45, 0.9);
+          tl.from(col.querySelector('.gow-label'), { opacity: 0, y: 14, filter: 'blur(6px)', duration: 0.5, ease: 'gift' }, at + 0.85);
+        });
+        tl.to({}, { duration: 0.6 });
       });
 
-      tl.from('.gow-head > *', { opacity: 0, y: 20, filter: 'blur(8px)', stagger: 0.1, duration: 0.5, ease: 'gift' }, 0).from(
-        '.gow-ground',
-        { scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: 'none' },
-        0.1
-      );
-
-      gsap.utils.toArray<HTMLElement>('.gow-col').forEach((col, i) => {
-        const at = 0.5 + i * 0.85;
-        tl.fromTo(col.querySelector('.gow-stem'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.7, ease: 'none' }, at).
-        from(col.querySelectorAll('.gow-leaf'), { scale: 0.1, opacity: 0, transformOrigin: '50% 100%', stagger: 0.12, duration: 0.5, ease: 'gift' }, at + 0.3).
-        from(col.querySelector('.gow-num'), { opacity: 0, duration: 0.3 }, at + 0.2);
-        addBloom(tl, col.querySelector('.gow-flower'), at + 0.45, 0.9);
-        tl.from(col.querySelector('.gow-label'), { opacity: 0, y: 14, filter: 'blur(6px)', duration: 0.5, ease: 'gift' }, at + 0.85);
-      });
-      tl.to({}, { duration: 0.6 });
+      return () => mm.revert();
     },
     { scope: root }
   );
@@ -52,7 +62,7 @@ export function GardenOfWishes() {
       id="garden"
       data-chapter="5"
       aria-labelledby="gow-title"
-      className="relative flex h-screen min-h-[600px] w-full flex-col overflow-hidden px-4 pb-10 pt-[12vh] md:px-12">
+      className="relative flex h-[100svh] min-h-[480px] w-full flex-col overflow-hidden px-4 pb-8 pt-[10svh] sm:min-h-[540px] sm:pb-10 md:min-h-[600px] md:px-12 md:pt-[12vh]">
       
       <ParticleField density={0.8} />
       <div className="gow-head relative z-10 text-center">
@@ -62,7 +72,7 @@ export function GardenOfWishes() {
         <p className="mt-2 font-script text-4xl text-gold md:text-5xl">{gardenOfWishes.accent}</p>
       </div>
 
-      <div className="relative mx-auto mt-6 grid w-full max-w-6xl flex-1 grid-cols-3 grid-rows-2 gap-x-2 gap-y-4 md:grid-cols-6 md:grid-rows-1 md:gap-x-4">
+      <div className="relative mx-auto mt-4 grid w-full max-w-6xl flex-1 grid-cols-3 grid-rows-2 gap-x-1.5 gap-y-3 sm:mt-6 sm:gap-x-2 sm:gap-y-4 md:grid-cols-6 md:grid-rows-1 md:gap-x-4">
         <span className="gow-ground absolute inset-x-0 bottom-6 hidden h-px bg-gold/40 md:block" aria-hidden="true" />
         {gardenOfWishes.flowers.map((flower, i) =>
         <div
@@ -70,7 +80,7 @@ export function GardenOfWishes() {
           className="gow-col relative flex flex-col items-center self-end"
           style={{ height: `${HEIGHTS[i]}%` }}>
           
-            <p className="gow-label mb-3 max-w-[11rem] text-center font-display text-[clamp(1rem,1.7vw,1.5rem)] italic leading-tight text-ivory">
+            <p className="gow-label mb-2 max-w-[8.5rem] text-center font-display text-[clamp(0.78rem,2.4vw,1.5rem)] italic leading-tight text-ivory sm:mb-3 sm:max-w-[11rem] md:text-[clamp(1rem,1.7vw,1.5rem)]">
               {flower.label}
             </p>
             <div className={`gow-flower relative z-10 -mb-[22%] ${HEAD[i]}`} aria-hidden="true">
@@ -97,7 +107,7 @@ export function GardenOfWishes() {
                 <Leaf className="gow-leaf w-full" />
               </div>
             </div>
-            <span className="gow-num mt-2 font-display text-xs tabular-nums text-ivory/45">
+            <span className="gow-num mt-1.5 font-display text-[11px] tabular-nums text-ivory/45 sm:mt-2 sm:text-xs">
               No. {String(i + 1).padStart(2, '0')}
             </span>
           </div>

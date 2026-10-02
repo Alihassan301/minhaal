@@ -62,42 +62,44 @@ export function Opening({ onReveal, onFinish }: OpeningProps) {
       ref={root}
       role="dialog"
       aria-label={`A gift for ${name}`}
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center overflow-hidden bg-plum px-6">
+      className="fixed inset-0 z-[80] flex flex-col items-center overflow-y-auto overscroll-contain bg-plum px-6 py-10">
       
-      <div
-        aria-hidden="true"
-        className="op-light pointer-events-none absolute left-1/2 top-1/2 h-[30vmax] w-[30vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0"
-        style={{
-          background:
-          'radial-gradient(circle, rgba(255,248,240,1) 0%, rgba(232,206,160,0.75) 32%, rgba(216,184,120,0) 70%)'
-        }} />
-      
-
-      <div className="op-float relative">
-        <div ref={burstRef} className="pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="relative my-auto flex w-full flex-col items-center">
         <div
           aria-hidden="true"
-          className="op-glow pointer-events-none absolute left-1/2 top-[40%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0"
-          style={{ background: 'radial-gradient(circle, rgba(255,240,210,0.9), rgba(216,184,120,0) 70%)' }} />
+          className="op-light pointer-events-none absolute left-1/2 top-1/2 h-[30vmax] w-[30vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0"
+          style={{
+            background:
+            'radial-gradient(circle, rgba(255,248,240,1) 0%, rgba(232,206,160,0.75) 32%, rgba(216,184,120,0) 70%)'
+          }} />
         
-        <button
-          type="button"
-          onClick={open}
-          data-cursor="Open"
-          aria-label="Open your gift"
-          className="op-box relative block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70">
-          
-          <GiftBox />
-        </button>
-      </div>
 
-      <div className="op-text relative mt-10 text-center">
-        <p className="op-line-1 font-display text-2xl italic text-ivory/80 md:text-3xl">{opening.lines[0]}</p>
-        <p className="op-line-2 mt-2 font-display text-2xl italic text-ivory/80 md:text-3xl">{opening.lines[1]}</p>
-        <p className="op-name mt-8 font-display text-5xl font-light tracking-[0.32em] text-ivory md:text-7xl">
-          {name.toUpperCase()}
-        </p>
-        <p className="op-prompt mt-8 text-sm text-gold/80">{opening.prompt}</p>
+        <div className="op-float relative">
+          <div ref={burstRef} className="pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div
+            aria-hidden="true"
+            className="op-glow pointer-events-none absolute left-1/2 top-[40%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0"
+            style={{ background: 'radial-gradient(circle, rgba(255,240,210,0.9), rgba(216,184,120,0) 70%)' }} />
+          
+          <button
+            type="button"
+            onClick={open}
+            data-cursor="Open"
+            aria-label="Open your gift"
+            className="op-box relative block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70">
+            
+            <GiftBox />
+          </button>
+        </div>
+
+        <div className="op-text relative mt-6 text-center [@media(max-height:640px)]:mt-4 sm:mt-10">
+          <p className="op-line-1 font-display text-2xl italic text-ivory/80 md:text-3xl">{opening.lines[0]}</p>
+          <p className="op-line-2 mt-2 font-display text-2xl italic text-ivory/80 md:text-3xl">{opening.lines[1]}</p>
+          <p className="op-name mt-5 font-display text-5xl font-light tracking-[0.16em] text-ivory [@media(max-height:640px)]:mt-3 sm:mt-8 sm:tracking-[0.32em] md:text-7xl">
+            {name.toUpperCase()}
+          </p>
+          <p className="op-prompt mt-5 text-sm text-gold/80 [@media(max-height:640px)]:mt-3 sm:mt-8">{opening.prompt}</p>
+        </div>
       </div>
     </div>);
 
@@ -105,7 +107,7 @@ export function Opening({ onReveal, onFinish }: OpeningProps) {
 
 function GiftBox() {
   return (
-    <svg viewBox="0 0 200 200" className="h-auto w-[min(48vw,210px)]" aria-hidden="true">
+    <svg viewBox="0 0 200 200" className="h-auto w-[min(48vw,210px)] [@media(max-height:640px)]:w-[min(38vw,150px)]" aria-hidden="true">
       <ellipse cx="100" cy="194" rx="70" ry="5" fill="#000" opacity="0.35" />
       <g>
         <rect x="32" y="92" width="136" height="98" rx="4" fill="#4A1F32" />

@@ -35,8 +35,8 @@ export function Appreciation() {
   );
 
   return (
-    <section ref={root} data-chapter="5" aria-label={appreciation.statement} className="relative h-[200vh] bg-night">
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden px-6">
+    <section ref={root} data-chapter="5" aria-label={appreciation.statement} className="relative h-[200svh] bg-night">
+      <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden px-6">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <Flower kind="peony" tone="#4A1F32" className="ap-shadow absolute -left-[12vmax] -top-[10vmax] w-[56vmax] opacity-40 blur-[6px]" />
           <Flower kind="rose" tone="#3A1828" className="ap-shadow absolute -bottom-[14vmax] -right-[10vmax] w-[60vmax] opacity-50 blur-[8px]" />
@@ -44,10 +44,10 @@ export function Appreciation() {
         </div>
         <ParticleField density={0.7} />
         <div className="relative z-10 text-center">
-          <h2 className="ap-statement font-display text-[clamp(4.5rem,17vw,16rem)] font-light leading-[0.9] text-ivory">
+          <h2 className="ap-statement font-display text-[clamp(3.25rem,17vw,16rem)] font-light leading-[0.9] text-ivory">
             {appreciation.statement}
           </h2>
-          <p className="ap-follow mt-8 font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-gold">{appreciation.follow}</p>
+          <p className="ap-follow mt-6 font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-gold sm:mt-8">{appreciation.follow}</p>
         </div>
       </div>
     </section>);

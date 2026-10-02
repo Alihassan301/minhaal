@@ -49,7 +49,7 @@ export function GiftExperience({ showOpening }: {showOpening: boolean;}) {
   }, [fontsReady, revealed]);
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-clip bg-plum text-ivory">
+    <div className="relative min-h-[100svh] w-full overflow-x-clip bg-plum text-ivory">
       <Atmosphere />
 
       {fontsReady &&
