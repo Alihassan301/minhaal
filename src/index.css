@@ -1,0 +1,153 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Great+Vibes&family=Manrope:wght@300;400;500;600&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+html,
+body {
+  background: #160d18;
+}
+body {
+  color: #fff8f0;
+  font-family: 'Manrope', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+::selection {
+  background: #e8a7b8;
+  color: #160d18;
+}
+/* Custom cursor (desktop only — class is added by the Cursor component) */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+.cursor-ring {
+  position: absolute;
+  left: -38px;
+  top: -38px;
+  width: 76px;
+  height: 76px;
+  border-radius: 9999px;
+  border: 1px solid rgba(216, 184, 120, 0.55);
+  display: grid;
+  place-items: center;
+  transform: scale(0.42);
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), background-color 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cursor-ring.is-active {
+  transform: scale(1);
+  background-color: rgba(216, 184, 120, 0.94);
+  border-color: transparent;
+}
+.cursor-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #160d18;
+  opacity: 0;
+  transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cursor-ring.is-active .cursor-label {
+  opacity: 1;
+}
+/* Grain */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Petals */
+.petal {
+  border-radius: 80% 0 80% 0;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(calc(var(--drift) * 0.5), 55vh, 0) rotate(calc(var(--spin) * 0.5));
+  }
+  100% {
+    transform: translate3d(var(--drift), 120vh, 0) rotate(var(--spin));
+  }
+}
+@keyframes leaf-sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+.sway {
+  transform-origin: 50% 100%;
+  animation: leaf-sway 6s ease-in-out infinite;
+}
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.slow-spin {
+  animation: slow-spin 120s linear infinite;
+}
+@keyframes ray-drift {
+  0% {
+    transform: rotate(12deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(24deg);
+    opacity: 1;
+  }
+}
+.ray {
+  transform-origin: 50% 0%;
+  animation: ray-drift 14s ease-in-out infinite alternate;
+}
+@keyframes leak-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(6vw, 4vh, 0);
+  }
+}
+.leak {
+  animation: leak-drift 22s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .petal,
+  .sway,
+  .slow-spin,
+  .ray,
+  .leak {
+    animation: none !important;
+  }
+}
